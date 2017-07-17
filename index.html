@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/dadishu.css"/>
+	</head>
+	<body>
+		
+		<script type="text/javascript">
+			var page=document.createElement("div");
+			page.className="page";
+			page.id="page";
+			var pageTop=document.createElement("div");
+			pageTop.className="pageTop";
+			pageTop.id="pageTop";
+			page.appendChild(pageTop);
+			pageTop.innerHTML="<div class='shijian'><img src='img/countdown_time.png'/><span>10s</span></div>"+
+							"<div class='kaishi'><img src='img/game_btn_star.png'/></div>"+
+							"<div class='jihui'>还有<span>5</span>机会</div>";
+			
+			
+			var fenxiang=document.createElement("div");
+			fenxiang.className="fenxiang";
+			fenxiang.id="fenxiang";
+			fenxiang.innerHTML="<img class='fengxiang' src='img/countdown_share.png'/>"
+			pageTop.appendChild(fenxiang);
+			var mice=document.createElement("div");
+			mice.className="mice";
+			mice.id="mice";
+			var str="";
+			for (var i = 0; i < 12; i++) {
+				str=str+"<div><img id='ds"+i+"' src='img/vendor_people00.png'/></div>"
+			}
+			mice.innerHTML=str;
+			page.appendChild(mice);
+			document.body.appendChild(page);
+			
+			 var start=document.querySelector(".kaishi");
+			 var timespan=document.querySelector(".shijian span")
+			 var mice=document.querySelector(".mice");
+			 var score=0;
+			 var reClick;
+			 
+			 var end=function () {
+			 	var endWindow=document.createElement("div");
+			 	endWindow.id="endWindow";
+			 	endWindow.innerHTML="<img src='img/pop_score_bg.png'/>"+
+			 						"<h3>"+score+"分</h3>"+
+			 						"<h2 id='again'>再来一次</h2>";
+			 	
+			 	document.body.appendChild(endWindow);
+			 	document.querySelector("#again").onclick=function () {
+			 		location.reload();
+			 	}
+			 }
+			 
+			 var begin=function () {
+			 	document.querySelector(".kaishi").style.display="none";
+			 	var num=10;
+			 	var cishu=5;
+			 	var clearTime=setInterval(function () {
+			 		reClick=false;
+			 		for (var i=0;i<12;i++) {
+			 			document.querySelector("#ds"+i).src="img/vendor_people00.png";
+			 		}
+			 		timespan.innerHTML=num+"s";
+			 		num--;
+			 		if (num==0) {
+			 			clearInterval(clearTime);
+//			 			document.querySelector(".jihui span").innerText=cishu-1;
+			 			end();
+			 		}
+			 		
+			 		randomNum=parseInt(Math.random()*12);
+			 		document.querySelector("#ds"+randomNum).src="img/vendor_hole01.png"
+			 	},1000)
+			 	
+			 	
+			 	var clickmice=function () {
+			 		var aa="ds"+randomNum;
+			 		if (event.target.id==aa&&!reClick) {
+			 			event.target.src="img/vendor_hole02.png";
+			 			score+=100;
+			 			reClick=true;
+			 			console.log(score);
+			 		}
+			 	}
+			 	mice.addEventListener("click",clickmice);
+			 	
+			 }
+			start.addEventListener("click",begin);
+			
+//			console.log(page);
+			
+			
+		</script>
+		
+	</body>
+</html>
